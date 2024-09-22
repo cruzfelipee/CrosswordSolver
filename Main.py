@@ -1,13 +1,11 @@
-f = None
+import Utilities
+from FileReader import FileReader
 
-caso = int(input("Tamanho do caso "))
-if (caso == 11):
-    f = open("testes/grid-11x11.txt", "r")
-elif (caso == 15):
-    f = open("testes/grid-15x15.txt", "r")
-elif (caso == 25):
-    f = open("testes/grid-25x25.txt", "r")
+reader = FileReader()
+reader.readFile(int(input("Tamanho do caso ")))
+matrix = reader.getMatrix()
 
-nsei = f.read()
+Utilities.printMatrix(matrix)
 
-print(nsei)
+for word in reader.getHorizontal():
+    print(str(word))
