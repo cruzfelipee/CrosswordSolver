@@ -9,3 +9,7 @@ Utilities.printMatrix(matrix)
 
 for word in reader.getHorizontal():
     print(str(word))
+
+for word in reader.getVertical():
+    print(str(word))
+
