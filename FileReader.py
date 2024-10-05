@@ -1,6 +1,7 @@
 from Word import Word
 from Position import Position
 import Utilities
+import numpy as np
 
 class FileReader:
     def __init__(self) -> None:
@@ -9,8 +10,10 @@ class FileReader:
     # returns the read file as matrix
     def getMatrix(self):
         self.matrix = self.file.readlines()
-        for line in self.matrix:
-            line.replace("\n", "")
+        # for line in self.matrix:
+        #     line.replace("\n", "")
+        for i in range(len(self.matrix)):
+            self.matrix[i] = self.matrix[i].replace("\n", "")
         return self.matrix
 
     # reads the specified case
@@ -35,6 +38,10 @@ class FileReader:
         return words
 
     def getVertical(self):
-        Utilities.invertMatrix(self.matrix) # inverte, pq dai coluna vira linha e vice versa
-        return self.getHorizontal("Vertical")
-        Utilities.invertMatrix(self.matrix) # reverte pra nao estragar o resto do codigo
+        np_matrix = np.array([list(row) for row in self.matrix])
+        aux_matrix = self.matrix.copy()
+        self.matrix = np_matrix.T.tolist()
+        self.matrix = ["".join(row) for row in self.matrix]
+        r = self.getHorizontal("Vertical")
+        self.matrix = aux_matrix
+        return r
