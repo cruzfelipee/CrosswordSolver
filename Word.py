@@ -9,3 +9,6 @@ class Word:
 
     def __str__(self) -> str:
         return f"[Text: {self.text}; Type: {self.wordType}; StartPosition: {self.startPosition}]"
+
+    def getLen(self):
+        return len(self.text)

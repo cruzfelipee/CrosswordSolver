@@ -45,3 +45,21 @@ class FileReader:
         r = self.getHorizontal("Vertical")
         self.matrix = aux_matrix
         return r
+
+
+    def getWords(self):
+        return self.getHorizontal() + self.getVertical()
+
+
+    def getPossibleWords(self):
+        words = self.getWords()
+        max_len = Utilities.getMaxLenWord(words)
+        min_len = Utilities.getMinLenWord(words)
+        possible_words = []
+
+        with open("lista_palavras.txt", "r") as file:
+            for line in file:
+                if len(line) >= min_len and len(line) <= max_len:
+                    possible_words.append(line.strip())
+        
+        return possible_words
