@@ -1,4 +1,5 @@
 import Utilities
+import Caminhamento
 from FileReader import FileReader
 
 reader = FileReader()
@@ -7,12 +8,18 @@ matrix = reader.getMatrix()
 
 Utilities.printMatrix(matrix)
 
-# for word in reader.getHorizontal():
-#     print(str(word))
+# inicializa os objetos da classe Word
+reader.getHorizontal()
+reader.getVertical()
 
-# for word in reader.getVertical():
-#     print(str(word))
+print("read everuythonmg")
+
+# possible_words = reader.getPossibleWords()
+# print(f"Possible words: {len(possible_words)}")
+
+print("strting")
+
+caminhamento = Caminhamento.Caminhamento()
+caminhamento.start()
 
 
-possible_words = reader.getPossibleWords()
-print(f"Possible words: {len(possible_words)}")

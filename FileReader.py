@@ -46,10 +46,8 @@ class FileReader:
         self.matrix = aux_matrix
         return r
 
-
     def getWords(self):
         return self.getHorizontal() + self.getVertical()
-
 
     def getPossibleWords(self):
         words = self.getWords()
