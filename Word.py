@@ -17,7 +17,7 @@ def getWordsOfSize(size):
 
 
 class Word:
-    all_words = [line.strip() for line in open("lista_palavras.txt", "r")]
+    all_words = [line.strip() for line in open("lista_palavras.txt", "r", encoding="utf8")]
     # esse sinal de igual (=) depois de startPoint atribui um valor default, entao se tu n passar nada qnd instancia Word, ele recebe None
     def __init__(self, text  : str, wordType : str, startPosition : Position = None) -> None:
         self.text = text # the actual word
@@ -30,7 +30,7 @@ class Word:
         words.append(self)
 
     def __str__(self) -> str:
-        return f"[Text: {self.text}; Type: {self.wordType}; StartPosition: {self.startPosition}; Adjacent: {', '.join(f'{key} -> {str(adj)}' for key, adj in self.adjacents.items())}]"
+        return f"[Text: {self.text}; Type: {self.wordType}; StartPosition: {str(self.startPosition)}; Adjacent: {', '.join(f'{key} -> {str(adj.text)}' for key, adj in self.adjacents.items())}]"
 
     def __len__(self):
         return len(self.text)
@@ -83,5 +83,6 @@ class Word:
         print(f"Updating: {str([self.startPosition])} vs {str(word)}")
         print(f"Updating: self.text[{myIndex}] vs word.text[{otherIndex}]")
         print(f"self.text: {self.text}, word.text: {word.text}")
+
         letter = word.text[otherIndex]
         self.possibleWords = [word for word in self.possibleWords if word[myIndex] == letter]
