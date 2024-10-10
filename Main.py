@@ -15,15 +15,18 @@ Utilities.printMatrix(matrix)
 words = reader.getWords()
 
 for word in words:
+    word.updateAdjacents()
+
+for word in words:
     print(str(word))
     print(len(word.possibleWords))
 
-print("read everuythonmg")
+print("read everything")
 
 # possible_words = reader.getPossibleWords()
 # print(f"Possible words: {len(possible_words)}")
 
-print("strting")
+print("starting")
 
 caminhamento = Caminhamento.Caminhamento()
 caminhamento.start()
@@ -31,6 +34,6 @@ caminhamento.start()
 print("done")
 
 for word in words:
-     print(str(word))
+    print(str(word))
 
 

@@ -26,7 +26,7 @@ class Word:
         self.endPosition = Position(startPosition.x + len(text), startPosition.y) if wordType == "Horizontal" else Position(startPosition.x, startPosition.y + len(text))
         self.possibleWords = [word for word in Word.all_words if len(word) == len(text)]
         self.adjacents = {}
-        self.updateAdjacents()
+        # self.updateAdjacents() n faz sentido chamar antes de todas as palavras estarem criadas
         words.append(self)
 
     def __str__(self) -> str:
@@ -43,46 +43,67 @@ class Word:
             if self.wordType == "Vertical":
                 if self.startPosition.x >= otherWord.startPosition.x and self.startPosition.x <= otherWord.endPosition.x:
                     if self.startPosition.y <= otherWord.startPosition.y and self.endPosition.y >= otherWord.startPosition.y:
-                        self.adjacents[otherWord.startPosition.y] = otherWord
+                        self.adjacents[otherWord.startPosition.y - self.startPosition.y] = otherWord
             else:
                 if self.startPosition.y >= otherWord.startPosition.y and self.startPosition.y <= otherWord.endPosition.y:
                     if self.startPosition.x <= otherWord.startPosition.x and self.endPosition.x >= otherWord.startPosition.x:
-                        self.adjacents[otherWord.startPosition.x] = otherWord
+                        self.adjacents[otherWord.startPosition.x - self.startPosition.x] = otherWord
     
     def getNumberOfAdjacents(self):
         return len(self.adjacents)
     
-    # sei la oq ta acontecendo nesse metodo help
-    def isValid(self) -> bool: # true se respeita a restricao
-        for position in self.adjacents.keys():
-            otherWord = self.adjacents[position]
-            if "?" in otherWord.text:
-                return True # se a palavra adjacente ainda não foi definida, entao respeita a restricao
+    def isValid(self) -> bool:
+        """
+        retorna True se, de todas as palavras adjacentes as letras são compatíveis
+        """
+        if "?" in self.text or "?":
+            True # se a palavra adjacente ainda, entao respeita a restricao
+
+        for index in self.adjacents.keys():
+            # position é a posicao de interseccao com a palavra adjacente
+            otherWord = self.adjacents[index]
+
+            if "?" in otherWord.text or "?":
+                True # se a palavra adjacente ainda, entao respeita a restricao
             
-            myIndex = position - self.startPosition.y if self.wordType == "Vertical" else position - self.startPosition.x
-            otherIndex = self.startPosition.x - otherWord.startPosition.x if self.wordType == "Vertical" else self.startPosition.y - otherWord.startPosition.y
-            print(f"Checking: self.text[{myIndex}] vs otherWord.text[{otherIndex}]")
-            print(f"self.text: {self.text}, otherWord.text: {otherWord.text}")
+            otherIndex = otherWord.startPosition.x - self.startPosition.x if self.wordType == "Vertical" else otherWord.startPosition.y - self.startPosition.y
+            if self.text[index] != otherWord.text[otherIndex]:
+                return False # nao encaixa com a palavra adjacente
+        
+        return True # nenhuma restricao foi violada
+            
 
-            if self.text[myIndex] != otherWord.text[otherIndex]:
-                print(f"Invalid: {self.text[myIndex]} vs {otherWord.text[otherIndex]}")
-                return False
-        print("Valid")
-        return True
+    # # sei la oq ta acontecendo nesse metodo help
+    # def isValid(self) -> bool: # true se respeita a restricao
+    #     for position in self.adjacents.keys():
+    #         otherWord = self.adjacents[position]
+    #         if "?" in otherWord.text:
+    #             return True # se a palavra adjacente ainda não foi definida, entao respeita a restricao
+            
+    #         myIndex = position - self.startPosition.y if self.wordType == "Vertical" else position - self.startPosition.x
+    #         otherIndex = self.startPosition.x - otherWord.startPosition.x if self.wordType == "Vertical" else self.startPosition.y - otherWord.startPosition.y
+    #         print(f"Checking: self.text[{myIndex}] vs otherWord.text[{otherIndex}]")
+    #         print(f"self.text: {self.text}, otherWord.text: {otherWord.text}")
 
-    def updatePossibleWords(self, word):
-        if self.wordType == "Vertical":
-            # cruzamento no eixo x
-            otherIndex = self.startPosition.x - word.startPosition.x
-            myIndex = word.startPosition.y - self.startPosition.y
-        else:
-            # cruzamento no eixo y
-            otherIndex = self.startPosition.y - word.startPosition.y
-            myIndex = word.startPosition.x - self.startPosition.x
+    #         if self.text[myIndex] != otherWord.text[otherIndex]:
+    #             print(f"Invalid: {self.text[myIndex]} vs {otherWord.text[otherIndex]}")
+    #             return False
+    #     print("Valid")
+    #     return True
 
-        print(f"Updating: {str([self.startPosition])} vs {str(word)}")
-        print(f"Updating: self.text[{myIndex}] vs word.text[{otherIndex}]")
-        print(f"self.text: {self.text}, word.text: {word.text}")
+    # def updatePossibleWords(self, word):
+    #     if self.wordType == "Vertical":
+    #         # cruzamento no eixo x
+    #         otherIndex = self.startPosition.x - word.startPosition.x
+    #         myIndex = word.startPosition.y - self.startPosition.y
+    #     else:
+    #         # cruzamento no eixo y
+    #         otherIndex = self.startPosition.y - word.startPosition.y
+    #         myIndex = word.startPosition.x - self.startPosition.x
 
-        letter = word.text[otherIndex]
-        self.possibleWords = [word for word in self.possibleWords if word[myIndex] == letter]
+    #     print(f"Updating: {str([self.startPosition])} vs {str(word)}")
+    #     print(f"Updating: self.text[{myIndex}] vs word.text[{otherIndex}]")
+    #     print(f"self.text: {self.text}, word.text: {word.text}")
+
+    #     letter = word.text[otherIndex]
+    #     self.possibleWords = [word for word in self.possibleWords if word[myIndex] == letter]

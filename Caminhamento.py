@@ -26,9 +26,7 @@ class Caminhamento:
                 """
                 
                 word.text = possibleWord
-                if word.isValid():
-                    for adj in word.adjacents.values():
-                        adj.updatePossibleWords(word) # tentei fazer isso, mas n sei se deu certo
+                if word.isValid() and not ("?" in word.text):
                     break # se a palavra for valida, sai do loop
         
         print("Done")
