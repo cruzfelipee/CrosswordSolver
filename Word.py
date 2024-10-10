@@ -80,5 +80,8 @@ class Word:
             otherIndex = self.startPosition.y - word.startPosition.y
             myIndex = word.startPosition.x - self.startPosition.x
 
+        print(f"Updating: {str([self.startPosition])} vs {str(word)}")
+        print(f"Updating: self.text[{myIndex}] vs word.text[{otherIndex}]")
+        print(f"self.text: {self.text}, word.text: {word.text}")
         letter = word.text[otherIndex]
         self.possibleWords = [word for word in self.possibleWords if word[myIndex] == letter]
