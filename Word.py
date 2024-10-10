@@ -56,12 +56,29 @@ class Word:
     def isValid(self) -> bool: # true se respeita a restricao
         for position in self.adjacents.keys():
             otherWord = self.adjacents[position]
-            otherIndex = self.startPosition.y if self.wordType == "Horizontal" else self.startPosition.x
-            relativePos = otherIndex - otherWord.startPosition.x if self.wordType == "Horizontal" else otherWord.startPosition.y
-            # print(f"Checking: self.text[{position}] vs otherWord.text[{relativePos}]")
-            # print(f"self.text: {self.text}, otherWord.text: {otherWord.text}")
+            if "?" in otherWord.text:
+                return True # se a palavra adjacente ainda não foi definida, entao respeita a restricao
+            
+            myIndex = position - self.startPosition.y if self.wordType == "Vertical" else position - self.startPosition.x
+            otherIndex = self.startPosition.x - otherWord.startPosition.x if self.wordType == "Vertical" else self.startPosition.y - otherWord.startPosition.y
+            print(f"Checking: self.text[{myIndex}] vs otherWord.text[{otherIndex}]")
+            print(f"self.text: {self.text}, otherWord.text: {otherWord.text}")
 
-            if self.text[position] != otherWord.text[relativePos]:
+            if self.text[myIndex] != otherWord.text[otherIndex]:
+                print(f"Invalid: {self.text[myIndex]} vs {otherWord.text[otherIndex]}")
                 return False
-
+        print("Valid")
         return True
+
+    def updatePossibleWords(self, word):
+        if self.wordType == "Vertical":
+            # cruzamento no eixo x
+            otherIndex = self.startPosition.x - word.startPosition.x
+            myIndex = word.startPosition.y - self.startPosition.y
+        else:
+            # cruzamento no eixo y
+            otherIndex = self.startPosition.y - word.startPosition.y
+            myIndex = word.startPosition.x - self.startPosition.x
+
+        letter = word.text[otherIndex]
+        self.possibleWords = [word for word in self.possibleWords if word[myIndex] == letter]
