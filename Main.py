@@ -3,14 +3,20 @@ import Caminhamento
 from FileReader import FileReader
 
 reader = FileReader()
-reader.readFile(int(input("Tamanho do caso ")))
+reader.readFile(11)
 matrix = reader.getMatrix()
 
 Utilities.printMatrix(matrix)
 
 # inicializa os objetos da classe Word
-reader.getHorizontal()
-reader.getVertical()
+# reader.getHorizontal()
+# reader.getVertical()
+
+words = reader.getWords()
+
+for word in words:
+    print(str(word))
+    print(len(word.possibleWords))
 
 print("read everuythonmg")
 
@@ -21,5 +27,10 @@ print("strting")
 
 caminhamento = Caminhamento.Caminhamento()
 caminhamento.start()
+
+print("done")
+
+for word in words:
+     print(str(word))
 
 

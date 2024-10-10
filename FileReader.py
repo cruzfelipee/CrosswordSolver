@@ -33,7 +33,7 @@ class FileReader:
                     find = line.find(text, lastIndex)
                     pos = Position(find, y) if wordType == "Horizontal" else Position(y, find)
                     words.append(Word(text.strip(), wordType, pos))
-                    lastIndex = find
+                    lastIndex = find + len(text)
         
         return words
 
