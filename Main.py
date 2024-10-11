@@ -3,7 +3,7 @@ import Caminhamento
 from FileReader import FileReader
 from MatrixRebuilder import MatrixRebuilder
 
-CHOSEN_CASE = 7
+CHOSEN_CASE = 5
 
 reader = FileReader()
 reader.readFile(CHOSEN_CASE)
