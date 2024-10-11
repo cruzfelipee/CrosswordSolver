@@ -1,9 +1,12 @@
 import Utilities
 import Caminhamento
 from FileReader import FileReader
+from MatrixRebuilder import MatrixRebuilder
+
+CHOSEN_CASE = 7
 
 reader = FileReader()
-reader.readFile(11)
+reader.readFile(CHOSEN_CASE)
 matrix = reader.getMatrix()
 
 Utilities.printMatrix(matrix)
@@ -39,4 +42,8 @@ print("done")
 for word in words:
     print(str(word))
 
+matrixRebuilder = MatrixRebuilder(CHOSEN_CASE)
+matrixRebuilder.rebuild(words)
 
+for line in matrixRebuilder.m:
+    print(line)
