@@ -8,6 +8,9 @@ class Caminhamento:
         Word.sortWords()
         
         for word in Word.words:
+            if word.isValid() and not ("?" in word.text):
+                continue # se a palavra ja for valida, vai para a proxima
+
             for possibleWord in word.possibleWords:
                 """
                     Não pode ser assim, num exemplo:
