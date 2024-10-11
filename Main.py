@@ -29,7 +29,10 @@ print("read everything")
 print("starting")
 
 caminhamento = Caminhamento.Caminhamento()
-caminhamento.start()
+for i in range(len(words)):
+    print(f"Starting thread {i}")
+    caminhamento.start()
+    
 
 print("done")
 

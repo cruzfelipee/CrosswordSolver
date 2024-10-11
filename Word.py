@@ -66,7 +66,15 @@ class Word:
             if "?" in otherWord.text or "?":
                 True # se a palavra adjacente ainda, entao respeita a restricao
             
-            otherIndex = otherWord.startPosition.x - self.startPosition.x if self.wordType == "Vertical" else otherWord.startPosition.y - self.startPosition.y
+            #otherIndex = otherWord.startPosition.x - self.startPosition.x if self.wordType == "Vertical" else otherWord.startPosition.y - self.startPosition.y
+            otherIndex = 0
+            for key, value in self.adjacents.items():
+                if value == self:
+                    otherIndex = key
+                    break
+            # if otherIndex == 0:
+                # print("Error: otherIndex is 0")
+            
             if self.text[index] != otherWord.text[otherIndex]:
                 return False # nao encaixa com a palavra adjacente
         
