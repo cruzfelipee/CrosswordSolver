@@ -56,14 +56,14 @@ class FileReader:
         return self.getVertical() + self.getHorizontal()
 
     def getPossibleWords(self):
-        words = self.getWords()
+        words = self.getWords() 
         max_len = Utilities.getMaxLenWord(words)
         min_len = Utilities.getMinLenWord(words)
         possible_words = []
 
         with open("lista_palavras.txt", "r") as file:
             for line in file:
-                if len(line) >= min_len and len(line) <= max_len:
+                if len(line) >= min_len and len(line) <= max_len and not ("?" in line):
                     possible_words.append(line.strip())
         
         return possible_words

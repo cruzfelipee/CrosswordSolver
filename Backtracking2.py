@@ -1,10 +1,14 @@
 import Word
 import MatrixRebuilder
 import time
+import collections
 
 class Backtracking:
     def start(self):
+        self.stack = collections.deque()
+
         for word in Word.words:
+            self.stack.append(word)
             for possibleWord in word.possibleWords:
                 word.text = possibleWord
                 self.solve(word)
@@ -22,10 +26,10 @@ class Backtracking:
             # print("backtracking for word: " + str(word))
             return # backtrack
         
-        mr = MatrixRebuilder.MatrixRebuilder(11)
-        mr.rebuild(Word.words)
-        mr.printMatrix()
-        time.sleep(1)
+        # mr = MatrixRebuilder.MatrixRebuilder(11)
+        # mr.rebuild(Word.words)
+        # mr.printMatrix()
+        # time.sleep(1)
 
         print("Word " + str(word) + " is valid, solving for adjacents")
 

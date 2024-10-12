@@ -15,3 +15,7 @@ class MatrixRebuilder:
                 for letter in (word.text):
                     self.m[word.startPosition.y + i][word.startPosition.x] = letter
                     i += 1
+    
+    def printMatrix(self):
+        for line in self.m:
+            print(line)
