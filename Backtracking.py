@@ -32,7 +32,6 @@ class Backtracking:
         for otherWord in word.adjacents.values():
             for possibleWord in otherWord.possibleWords:
                 otherWord.text = possibleWord
-                # otherWord.possibleWords.remove(possibleWord)
                 if self.areAllWordsValid():
                     print("Solved")
                     return # achou solucao

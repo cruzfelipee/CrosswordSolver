@@ -7,29 +7,21 @@ class Refinement:
             self.refine()
 
     def refine(self):
-        # Word.sortWords()
-
+        # pra cada palavra
         for word in Word.words:
-            # print(str(word) + " is valid")
-            if word.isValid():
-                #print(str(word) + " is valid")
+            if word.isValid(): # se a palavra ja for valida, vai para a proxima
                 continue
-           #elif not word.isValid():
-                #print(str(word) + " is not valid")
 
-            # (nao valido) ou (? na palavra)
-
-            #print("randomizing " + str(word))
-            realPossibleWords = []
-            for possibleWord in word.possibleWords:
-                word.text = possibleWord
-                if word.isValid():
-                    realPossibleWords.append(possibleWord)
+            realPossibleWords = [possibleWord for possibleWord in word.possibleWords if word.isValid(possibleWord)] # lista de palavras possiveis que sao validas de verdade
+            # for possibleWord in word.possibleWords:
+            #     word.text = possibleWord
+            #     if word.isValid():
+            #         realPossibleWords.append(possibleWord)
 
             if len(realPossibleWords) == 0:
                 continue
 
-            word.text = random.choice(realPossibleWords)
+            word.text = random.choice(realPossibleWords) # escolhe uma palavra valida aleatoria que caiba e seja valida
 
             return
 
@@ -39,23 +31,3 @@ class Refinement:
                 return False 
         
         return True
-    
-    def startOLD(self):
-        totalValid = True
-        for word in Word.words:
-            valid = False
-            if word.isValid() and not ("?" in word.text):
-                valid = True
-                continue # se a palavra ja for valida, vai para a proxima
-
-            for possibleWord in word.possibleWords:
-                
-                word.text = possibleWord
-                if word.isValid() and not ("?" in word.text):
-                    valid = True
-                    print(word.text)
-                    break # se a palavra for valida, sai do loop
-            
-            totalValid = totalValid and valid #alterado com o totalValid
-        
-        return totalValid

@@ -1,5 +1,4 @@
 from Position import Position
-import Utilities
 words = []
 
 def sortWords(): # ordena array words do maior numero de restricoes pro menor
@@ -14,7 +13,6 @@ def getWordsOfSize(size):
                     possible_words.append(line.strip())
         
         return possible_words
-
 
 class Word:
     all_words = [line.strip() for line in open("lista_palavras.txt", "r", encoding="utf8")]
@@ -52,11 +50,15 @@ class Word:
     def getNumberOfAdjacents(self):
         return len(self.adjacents)
     
-    def isValid(self) -> bool:
+    def isValid(self, text : str = None) -> bool:
         """
         retorna True se, de todas as palavras adjacentes as letras são compatíveis
         """
-        if ("?" in self.text): #or self.isWordAlreadyInUse():
+
+        if text == None:
+            text = self.text
+
+        if ("?" in text): #or self.isWordAlreadyInUse():
             return False # se a palavra ja foi usada, nao pode ser usada de novo
 
         for index in self.adjacents.keys():
@@ -66,12 +68,10 @@ class Word:
             if "?" in otherWord.text:
                 continue # se a palavra adjacente ainda, entao respeita a restricao
             
-            #otherIndex = otherWord.startPosition.x - self.startPosition.x if self.wordType == "Vertical" else otherWord.startPosition.y - self.startPosition.y
             changed = False
             otherIndex = 0
             for key, value in otherWord.adjacents.items():
                 if value == self:
-                    # print(str(otherWord) + " crosses " + str(self) + " at " + str(key))
                     otherIndex = key
                     changed = True
                     break
@@ -79,15 +79,13 @@ class Word:
             if not changed: # aaq
                 print("Error: otherIndex not found")
             
-            if index >= len(self.text):
-                #print("Error: index out of bounds for word " + str(self))
+            if index >= len(text):
                 continue # se as palavras nunca foram adjacentes, nao precisa verificar
 
             if otherIndex >= len(otherWord.text):
-                #print("Error: otherIndex out of bounds for word " + str(otherWord))
                 continue # se as palavras nunca foram adjacentes, nao precisa verificar
 
-            if self.text[index] != otherWord.text[otherIndex]:
+            if text[index] != otherWord.text[otherIndex]:
                 return False # nao encaixa com a palavra adjacente
         
         return True # nenhuma restricao foi violada
@@ -95,41 +93,6 @@ class Word:
     def isWordAlreadyInUse(self) -> bool:
         for word in words:
             if word.text == self.text and not "?" in self.text:
-                #print(f"Word {self.text} is already in use")
                 return True
         return False
     
-    # # sei la oq ta acontecendo nesse metodo help
-    # def isValid(self) -> bool: # true se respeita a restricao
-    #     for position in self.adjacents.keys():
-    #         otherWord = self.adjacents[position]
-    #         if "?" in otherWord.text:
-    #             return True # se a palavra adjacente ainda não foi definida, entao respeita a restricao
-            
-    #         myIndex = position - self.startPosition.y if self.wordType == "Vertical" else position - self.startPosition.x
-    #         otherIndex = self.startPosition.x - otherWord.startPosition.x if self.wordType == "Vertical" else self.startPosition.y - otherWord.startPosition.y
-    #         print(f"Checking: self.text[{myIndex}] vs otherWord.text[{otherIndex}]")
-    #         print(f"self.text: {self.text}, otherWord.text: {otherWord.text}")
-
-    #         if self.text[myIndex] != otherWord.text[otherIndex]:
-    #             print(f"Invalid: {self.text[myIndex]} vs {otherWord.text[otherIndex]}")
-    #             return False
-    #     print("Valid")
-    #     return True
-
-    # def updatePossibleWords(self, word):
-    #     if self.wordType == "Vertical":
-    #         # cruzamento no eixo x
-    #         otherIndex = self.startPosition.x - word.startPosition.x
-    #         myIndex = word.startPosition.y - self.startPosition.y
-    #     else:
-    #         # cruzamento no eixo y
-    #         otherIndex = self.startPosition.y - word.startPosition.y
-    #         myIndex = word.startPosition.x - self.startPosition.x
-
-    #     print(f"Updating: {str([self.startPosition])} vs {str(word)}")
-    #     print(f"Updating: self.text[{myIndex}] vs word.text[{otherIndex}]")
-    #     print(f"self.text: {self.text}, word.text: {word.text}")
-
-    #     letter = word.text[otherIndex]
-    #     self.possibleWords = [word for word in self.possibleWords if word[myIndex] == letter]

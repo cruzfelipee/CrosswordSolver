@@ -1,12 +1,12 @@
 import Word
 import Utilities
-import Backtracking2
 import Refinement
+import Backtracking
 from FileReader import FileReader
 from MatrixRebuilder import MatrixRebuilder
 import MatrixVisualizer
 
-CHOSEN_CASE = 11
+CHOSEN_CASE = 15
 
 reader = FileReader()
 reader.readFile(CHOSEN_CASE)

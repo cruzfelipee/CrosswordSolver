@@ -1,5 +1,3 @@
-import Word
-
 class MatrixRebuilder:
     def __init__(self, size):
         self.m = [["." for _ in range(size)] for _ in range(size)]
