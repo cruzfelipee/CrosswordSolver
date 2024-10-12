@@ -2,6 +2,10 @@ import Word
 import random
 
 class Refinement:
+    def __init__(self) -> None:
+        self.tries = 0
+
+
     def start(self):
         while not self.areAllWordsValid():
             self.refine()
@@ -24,6 +28,12 @@ class Refinement:
             word.text = random.choice(realPossibleWords) # escolhe uma palavra valida aleatoria que caiba e seja valida
 
             return
+
+        self.tries += 1
+        print(f"board is impossible, remaking. try number {self.tries}")
+        for word in Word.words:
+            word.text = "?" * len(word.text) # reseta tudo
+
 
     def areAllWordsValid(self):
         for word in Word.words:
