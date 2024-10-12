@@ -1,41 +1,42 @@
+import Word
 import Utilities
-import Caminhamento
+import Backtracking2
+import Refinement
 from FileReader import FileReader
 from MatrixRebuilder import MatrixRebuilder
+import MatrixVisualizer
 
-CHOSEN_CASE = 5
+CHOSEN_CASE = 11
 
 reader = FileReader()
 reader.readFile(CHOSEN_CASE)
 matrix = reader.getMatrix()
 
-Utilities.printMatrix(matrix)
+print("solving for matrix:")
 
-# inicializa os objetos da classe Word
-# reader.getHorizontal()
-# reader.getVertical()
+Utilities.printMatrix(matrix)
 
 words = reader.getWords()
 
 for word in words:
     word.updateAdjacents()
 
+print("words from file reader:")
 for word in words:
     print(str(word))
-    print(len(word.possibleWords))
 
-print("read everything")
+print("read everything, starting")
 
-# possible_words = reader.getPossibleWords()
-# print(f"Possible words: {len(possible_words)}")
+for word in Word.words:
+    word.updateAdjacents()
+      
+Word.sortWords()
 
-print("starting")
+# caminhamento = Backtracking2.Backtracking()
+# caminhamento.start()
 
-caminhamento = Caminhamento.Caminhamento()
-for i in range(len(words)):
-    print(f"Starting thread {i}")
-    caminhamento.start()
-    
+caminhamento = Refinement.Refinement()
+caminhamento.start()
 
 print("done")
 
@@ -45,5 +46,8 @@ for word in words:
 matrixRebuilder = MatrixRebuilder(CHOSEN_CASE)
 matrixRebuilder.rebuild(words)
 
+print("reconstructed matrix:")
 for line in matrixRebuilder.m:
     print(line)
+
+MatrixVisualizer.visualizeMatrix(matrixRebuilder.m)

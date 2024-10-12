@@ -10,7 +10,7 @@ def getWordsOfSize(size):
 
         with open("lista_palavras.txt", "r", encoding="utf8") as file:
             for line in file:
-                if len(line) == size:
+                if len(line.strip()) == size and not ("?" in line):
                     possible_words.append(line.strip())
         
         return possible_words
@@ -24,7 +24,7 @@ class Word:
         self.wordType = wordType # horizontal/vertical
         self.startPosition = startPosition # position in matrix of the last character of the word
         self.endPosition = Position(startPosition.x + len(text), startPosition.y) if wordType == "Horizontal" else Position(startPosition.x, startPosition.y + len(text))
-        self.possibleWords = [word for word in Word.all_words if len(word) == len(text)]
+        self.possibleWords = getWordsOfSize(len(text))
         self.adjacents = {}
         # self.updateAdjacents() n faz sentido chamar antes de todas as palavras estarem criadas
         words.append(self)
@@ -56,31 +56,49 @@ class Word:
         """
         retorna True se, de todas as palavras adjacentes as letras são compatíveis
         """
-        if "?" in self.text or "?":
-            True # se a palavra adjacente ainda, entao respeita a restricao
+        if ("?" in self.text): #or self.isWordAlreadyInUse():
+            return False # se a palavra ja foi usada, nao pode ser usada de novo
 
         for index in self.adjacents.keys():
             # position é a posicao de interseccao com a palavra adjacente
             otherWord = self.adjacents[index]
 
-            if "?" in otherWord.text or "?":
-                True # se a palavra adjacente ainda, entao respeita a restricao
+            if "?" in otherWord.text:
+                continue # se a palavra adjacente ainda, entao respeita a restricao
             
             #otherIndex = otherWord.startPosition.x - self.startPosition.x if self.wordType == "Vertical" else otherWord.startPosition.y - self.startPosition.y
+            changed = False
             otherIndex = 0
-            for key, value in self.adjacents.items():
+            for key, value in otherWord.adjacents.items():
                 if value == self:
+                    # print(str(otherWord) + " crosses " + str(self) + " at " + str(key))
                     otherIndex = key
+                    changed = True
                     break
-            # if otherIndex == 0:
-                # print("Error: otherIndex is 0")
             
+            if not changed: # aaq
+                print("Error: otherIndex not found")
+            
+            if index >= len(self.text):
+                #print("Error: index out of bounds for word " + str(self))
+                continue # se as palavras nunca foram adjacentes, nao precisa verificar
+
+            if otherIndex >= len(otherWord.text):
+                #print("Error: otherIndex out of bounds for word " + str(otherWord))
+                continue # se as palavras nunca foram adjacentes, nao precisa verificar
+
             if self.text[index] != otherWord.text[otherIndex]:
                 return False # nao encaixa com a palavra adjacente
         
         return True # nenhuma restricao foi violada
             
-
+    def isWordAlreadyInUse(self) -> bool:
+        for word in words:
+            if word.text == self.text and not "?" in self.text:
+                #print(f"Word {self.text} is already in use")
+                return True
+        return False
+    
     # # sei la oq ta acontecendo nesse metodo help
     # def isValid(self) -> bool: # true se respeita a restricao
     #     for position in self.adjacents.keys():
