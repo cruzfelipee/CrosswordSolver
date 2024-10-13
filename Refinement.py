@@ -17,10 +17,6 @@ class Refinement:
                 continue
 
             realPossibleWords = [possibleWord for possibleWord in word.possibleWords if word.isValid(possibleWord)] # lista de palavras possiveis que sao validas de verdade
-            # for possibleWord in word.possibleWords:
-            #     word.text = possibleWord
-            #     if word.isValid():
-            #         realPossibleWords.append(possibleWord)
 
             if len(realPossibleWords) == 0:
                 continue

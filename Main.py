@@ -5,8 +5,9 @@ import Backtracking
 from FileReader import FileReader
 from MatrixRebuilder import MatrixRebuilder
 import MatrixVisualizer
+import time
 
-CHOSEN_CASE = 15
+CHOSEN_CASE = 25
 
 reader = FileReader()
 reader.readFile(CHOSEN_CASE)

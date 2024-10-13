@@ -21,7 +21,7 @@ class Word:
         self.text = text # the actual word
         self.wordType = wordType # horizontal/vertical
         self.startPosition = startPosition # position in matrix of the last character of the word
-        self.endPosition = Position(startPosition.x + len(text), startPosition.y) if wordType == "Horizontal" else Position(startPosition.x, startPosition.y + len(text))
+        self.endPosition = Position(startPosition.x + len(text) - 1, startPosition.y) if wordType == "Horizontal" else Position(startPosition.x, startPosition.y + len(text) - 1)
         self.possibleWords = getWordsOfSize(len(text))
         self.adjacents = {}
         # self.updateAdjacents() n faz sentido chamar antes de todas as palavras estarem criadas
@@ -78,12 +78,6 @@ class Word:
             
             if not changed: # aaq
                 print("Error: otherIndex not found")
-            
-            if index >= len(text):
-                continue # se as palavras nunca foram adjacentes, nao precisa verificar
-
-            if otherIndex >= len(otherWord.text):
-                continue # se as palavras nunca foram adjacentes, nao precisa verificar
 
             if text[index] != otherWord.text[otherIndex]:
                 return False # nao encaixa com a palavra adjacente
