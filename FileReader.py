@@ -3,6 +3,7 @@ from Position import Position
 import Utilities
 import numpy as np
 
+
 class FileReader:
     def __init__(self) -> None:
         pass
@@ -33,7 +34,7 @@ class FileReader:
                     find = line.find(text, lastIndex)
                     pos = Position(find, y) if wordType == "Horizontal" else Position(y, find)
                     words.append(Word(text.strip(), wordType, pos))
-                    lastIndex = find
+                    lastIndex = find + len(text)
         
         return words
 
@@ -46,20 +47,23 @@ class FileReader:
         self.matrix = aux_matrix
         return r
 
+        # inverter_matriz(self.matrix)
+        # h = self.getHorizontal("Vertical")
+        # inverter_matriz(self.matrix)
+        # return h
 
     def getWords(self):
-        return self.getHorizontal() + self.getVertical()
-
+        return self.getVertical() + self.getHorizontal()
 
     def getPossibleWords(self):
-        words = self.getWords()
+        words = self.getWords() 
         max_len = Utilities.getMaxLenWord(words)
         min_len = Utilities.getMinLenWord(words)
         possible_words = []
 
         with open("lista_palavras.txt", "r") as file:
             for line in file:
-                if len(line) >= min_len and len(line) <= max_len:
+                if len(line) >= min_len and len(line) <= max_len and not ("?" in line):
                     possible_words.append(line.strip())
         
         return possible_words
