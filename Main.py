@@ -1,13 +1,14 @@
 import Word
 import Utilities
 import Refinement
-import Backtracking
 from FileReader import FileReader
 from MatrixRebuilder import MatrixRebuilder
 import MatrixVisualizer
 import time
 
-CHOSEN_CASE = 25
+CHOSEN_CASE = 11
+
+start_time = time.time()
 
 reader = FileReader()
 reader.readFile(CHOSEN_CASE)
@@ -33,9 +34,6 @@ for word in Word.words:
       
 Word.sortWords()
 
-# caminhamento = Backtracking2.Backtracking()
-# caminhamento.start()
-
 caminhamento = Refinement.Refinement()
 caminhamento.start()
 
@@ -46,6 +44,9 @@ for word in words:
 
 matrixRebuilder = MatrixRebuilder(CHOSEN_CASE)
 matrixRebuilder.rebuild(words)
+
+end_time = time.time()
+print("time elapsed: " + str(end_time - start_time) + " seconds")
 
 print("reconstructed matrix:")
 for line in matrixRebuilder.m:
