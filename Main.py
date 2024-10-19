@@ -1,13 +1,14 @@
 import Word
 import Utilities
 import Refinement
-import Backtracking
 from FileReader import FileReader
 from MatrixRebuilder import MatrixRebuilder
 import MatrixVisualizer
 import time
 
-CHOSEN_CASE = 25
+CHOSEN_CASE = 11
+
+st = time.time()
 
 reader = FileReader()
 reader.readFile(CHOSEN_CASE)
@@ -52,3 +53,5 @@ for line in matrixRebuilder.m:
     print(line)
 
 MatrixVisualizer.visualizeMatrix(matrixRebuilder.m)
+
+print("time elapsed: ", time.time() - st)

@@ -3,7 +3,6 @@ from Position import Position
 import Utilities
 import numpy as np
 
-
 class FileReader:
     def __init__(self) -> None:
         pass
@@ -11,8 +10,6 @@ class FileReader:
     # returns the read file as matrix
     def getMatrix(self):
         self.matrix = self.file.readlines()
-        # for line in self.matrix:
-        #     line.replace("\n", "")
         for i in range(len(self.matrix)):
             self.matrix[i] = self.matrix[i].replace("\n", "")
         return self.matrix
@@ -46,12 +43,7 @@ class FileReader:
         r = self.getHorizontal("Vertical")
         self.matrix = aux_matrix
         return r
-
-        # inverter_matriz(self.matrix)
-        # h = self.getHorizontal("Vertical")
-        # inverter_matriz(self.matrix)
-        # return h
-
+    
     def getWords(self):
         return self.getVertical() + self.getHorizontal()
 
